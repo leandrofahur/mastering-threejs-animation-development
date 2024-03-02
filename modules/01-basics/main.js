@@ -48,6 +48,20 @@ window.addEventListener("mousemove", (event) => {
   cursor.y = -(event.clientY / sizes.height - 0.5);
 });
 
+window.addEventListener("resize", () => {
+  // update sizes
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+
+  // update camera
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix();
+
+  // update renderer
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
 // 5th: render the scene:
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
