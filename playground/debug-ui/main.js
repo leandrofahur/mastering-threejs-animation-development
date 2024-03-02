@@ -81,7 +81,13 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 
 // setup a debug UI:
-const gui = new GUI();
+const gui = new GUI({
+  width: 300,
+  title: "Debug controls",
+  closeFolders: true,
+});
+gui.close();
+
 const parameters = {
   color: "#0000f0",
   wireframe: true,
