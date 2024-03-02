@@ -1,1 +1,1 @@
-# mastering-threejs-animation-development
+# Mastering Three.js Animation Development
