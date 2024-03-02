@@ -24,7 +24,21 @@ scene.add(camera);
 
 // 3rd: create a object = geometry + material and add it to the scene:
 const meshAxesHelper = new THREE.AxesHelper();
-const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+// const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+// const boxGeometry = new THREE.BoxGeometry(1, 1, 1, 4, 4, 4);
+
+const boxGeometry = new THREE.BufferGeometry();
+
+// 50 triangles * 3 vertices * 3 coordinates
+const count = 50000;
+const positionsArray = new Float32Array(count * 3 * 3);
+const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
+
+for (let i = 0; i < count * 3 * 3; i++) {
+  positionsArray[i] = (Math.random() - 0.5) * 4;
+}
+
+boxGeometry.setAttribute("position", positionsAttribute);
 const material = new THREE.MeshBasicMaterial({
   color: "#0000f0",
   wireframe: true,
