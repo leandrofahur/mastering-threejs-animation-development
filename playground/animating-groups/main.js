@@ -52,17 +52,18 @@ document.body.appendChild(renderer.domElement); // add the renderer to the body
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 
-console.log(group.children);
-
 // 6th: create an animation loop:
 const clock = new THREE.Clock();
 const animate = () => {
   const elapsedTime = clock.getElapsedTime();
 
   // update objects
-  group.rotation.z = elapsedTime;
+  // group.rotation.y = elapsedTime;
   planet01.rotation.set(elapsedTime, elapsedTime, 0);
   planet02.rotation.set(0, elapsedTime, elapsedTime);
+  camera.position.x = Math.sin(elapsedTime) * 3;
+  camera.position.z = Math.cos(elapsedTime) * 3;
+  camera.lookAt(group.position);
 
   // render the scene
   renderer.render(scene, camera);
