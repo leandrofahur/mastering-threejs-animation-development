@@ -62,6 +62,14 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
+window.addEventListener("dblclick", () => {
+  if (!document.fullscreenElement) {
+    renderer.domElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
+});
+
 // 5th: render the scene:
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
