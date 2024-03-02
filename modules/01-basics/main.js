@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import "./style.css";
 
 // 1st: create a scene (you can add the axes helper too):
 const scene = new THREE.Scene();
@@ -8,8 +9,8 @@ scene.add(axesHelper);
 
 // 2nd: create a camera and set its position and add it to the scene:
 const sizes = {
-  width: 600,
-  height: 400,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
 
 const camera = new THREE.PerspectiveCamera(
