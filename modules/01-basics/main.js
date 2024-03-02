@@ -53,6 +53,7 @@ renderer.render(scene, camera);
 
 // controls:
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true;
 
 // 6th: create an animation loop:
 const clock = new THREE.Clock();
