@@ -87,19 +87,21 @@ const parameters = {
   wireframe: true,
 };
 
-gui.addColor(parameters, "color").onChange(() => {
+const folder = gui.addFolder("cube folder");
+
+folder.addColor(parameters, "color").onChange(() => {
   material.color.set(parameters.color);
 });
 
-gui.add(parameters, "wireframe").onChange(() => {
+folder.add(parameters, "wireframe").onChange(() => {
   material.wireframe = parameters.wireframe;
 });
 
-gui.add(mesh, "visible");
+folder.add(mesh, "visible");
 
-gui.add(mesh.position, "x").min(-3).max(3).step(0.01).name("x");
-gui.add(mesh.position, "y").min(-3).max(3).step(0.01).name("y");
-gui.add(mesh.position, "z").min(-3).max(3).step(0.01).name("z");
+folder.add(mesh.position, "x").min(-3).max(3).step(0.01).name("x");
+folder.add(mesh.position, "y").min(-3).max(3).step(0.01).name("y");
+folder.add(mesh.position, "z").min(-3).max(3).step(0.01).name("z");
 
 // gui.add(camera.position, "x").min(-3).max(3).step(0.01).name("camera x");
 // gui.add(camera.position, "y").min(-3).max(3).step(0.01).name("camera y");
@@ -128,10 +130,10 @@ const debugObject = {};
 debugObject.spin = () => {
   gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2 });
 };
-gui.add(debugObject, "spin");
+folder.add(debugObject, "spin");
 
 debugObject.subdivision = 2;
-gui
+folder
   .add(debugObject, "subdivision")
   .min(2)
   .max(10)
