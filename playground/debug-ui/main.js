@@ -64,13 +64,13 @@ window.addEventListener("resize", () => {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 });
 
-window.addEventListener("dblclick", () => {
-  if (!document.fullscreenElement) {
-    renderer.domElement.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
-});
+// window.addEventListener("dblclick", () => {
+//   if (!document.fullscreenElement) {
+//     renderer.domElement.requestFullscreen();
+//   } else {
+//     document.exitFullscreen();
+//   }
+// });
 
 // 5th: render the scene:
 renderer.setSize(sizes.width, sizes.height);
@@ -95,32 +95,40 @@ gui.add(parameters, "wireframe").onChange(() => {
   material.wireframe = parameters.wireframe;
 });
 
+gui.add(mesh, "visible");
+
 gui.add(mesh.position, "x").min(-3).max(3).step(0.01).name("x");
 gui.add(mesh.position, "y").min(-3).max(3).step(0.01).name("y");
 gui.add(mesh.position, "z").min(-3).max(3).step(0.01).name("z");
 
-gui.add(camera.position, "x").min(-3).max(3).step(0.01).name("camera x");
-gui.add(camera.position, "y").min(-3).max(3).step(0.01).name("camera y");
-gui.add(camera.position, "z").min(-3).max(3).step(0.01).name("camera z");
+// gui.add(camera.position, "x").min(-3).max(3).step(0.01).name("camera x");
+// gui.add(camera.position, "y").min(-3).max(3).step(0.01).name("camera y");
+// gui.add(camera.position, "z").min(-3).max(3).step(0.01).name("camera z");
 
-gui
-  .add(mesh.rotation, "x")
-  .min(-Math.PI)
-  .max(Math.PI)
-  .step(0.01)
-  .name("rotation x");
-gui
-  .add(mesh.rotation, "y")
-  .min(-Math.PI)
-  .max(Math.PI)
-  .step(0.01)
-  .name("rotation y");
-gui
-  .add(mesh.rotation, "z")
-  .min(-Math.PI)
-  .max(Math.PI)
-  .step(0.01)
-  .name("rotation z");
+// gui
+//   .add(mesh.rotation, "x")
+//   .min(-Math.PI)
+//   .max(Math.PI)
+//   .step(0.01)
+//   .name("rotation x");
+// gui
+//   .add(mesh.rotation, "y")
+//   .min(-Math.PI)
+//   .max(Math.PI)
+//   .step(0.01)
+//   .name("rotation y");
+// gui
+//   .add(mesh.rotation, "z")
+//   .min(-Math.PI)
+//   .max(Math.PI)
+//   .step(0.01)
+//   .name("rotation z");
+
+const debugObject = {};
+debugObject.spin = () => {
+  gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2 });
+};
+gui.add(debugObject, "spin");
 
 // 6th: create an animation loop:
 const animate = () => {
