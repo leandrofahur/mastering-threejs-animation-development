@@ -1,4 +1,5 @@
 import * as THREE from "three";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 // 1st: create a scene (you can add the axes helper too):
 const scene = new THREE.Scene();
@@ -50,16 +51,19 @@ window.addEventListener("mousemove", (event) => {
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
 
+// controls:
+const controls = new OrbitControls(camera, renderer.domElement);
+
 // 6th: create an animation loop:
 const clock = new THREE.Clock();
 const animate = () => {
   const elapsedTime = clock.getElapsedTime();
 
   // update objects
-  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3;
-  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3;
-  camera.position.y = cursor.y * 5;
-  camera.lookAt(mesh.position);
+  // camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3;
+  // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3;
+  // camera.position.y = cursor.y * 5;
+  // camera.lookAt(mesh.position);
 
   // render the scene
   renderer.render(scene, camera);
