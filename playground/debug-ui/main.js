@@ -130,6 +130,24 @@ debugObject.spin = () => {
 };
 gui.add(debugObject, "spin");
 
+debugObject.subdivision = 2;
+gui
+  .add(debugObject, "subdivision")
+  .min(2)
+  .max(10)
+  .step(1)
+  .onFinishChange(() => {
+    const newGeometry = new THREE.BoxGeometry(
+      1,
+      1,
+      1,
+      debugObject.subdivision,
+      debugObject.subdivision,
+      debugObject.subdivision
+    );
+    mesh.geometry = newGeometry;
+  });
+
 // 6th: create an animation loop:
 const animate = () => {
   controls.update();
