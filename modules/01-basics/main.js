@@ -35,6 +35,17 @@ scene.add(mesh);
 const renderer = new THREE.WebGLRenderer();
 document.body.appendChild(renderer.domElement); // add the renderer to the body
 
+// add an eevent listener to the window change the camera position:
+const cursor = {
+  x: 0,
+  y: 0,
+};
+
+window.addEventListener("mousemove", (event) => {
+  cursor.x = event.clientX / sizes.width - 0.5;
+  cursor.y = -(event.clientY / sizes.height - 0.5);
+});
+
 // 5th: render the scene:
 renderer.setSize(sizes.width, sizes.height);
 renderer.render(scene, camera);
@@ -45,10 +56,9 @@ const animate = () => {
   const elapsedTime = clock.getElapsedTime();
 
   // update objects
-  mesh.position.y = Math.cos(elapsedTime);
-  mesh.position.x = Math.sin(elapsedTime);
-  // EULER:
-  mesh.rotation.y = 3 * elapsedTime;
+  camera.position.x = Math.sin(cursor.x * Math.PI * 2) * 3;
+  camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3;
+  camera.lookAt(mesh.position);
 
   // render the scene
   renderer.render(scene, camera);
