@@ -65,7 +65,7 @@ const animate = () => {
   // camera.position.z = Math.cos(cursor.x * Math.PI * 2) * 3;
   // camera.position.y = cursor.y * 5;
   // camera.lookAt(mesh.position);
-
+  controls.update();
   // render the scene
   renderer.render(scene, camera);
 
