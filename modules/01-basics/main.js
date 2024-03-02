@@ -21,12 +21,14 @@ camera.position.set(0, 0, 3); // <x, y, z>
 scene.add(camera);
 
 // 3rd: create a object = geometry + material and add it to the scene:
-const geometry = new THREE.BoxGeometry(1, 1, 1);
+const meshAxesHelper = new THREE.AxesHelper();
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({
   color: "#0000f0",
   wireframe: true,
 });
-const mesh = new THREE.Mesh(geometry, material);
+const mesh = new THREE.Mesh(boxGeometry, material);
+mesh.add(meshAxesHelper);
 scene.add(mesh);
 
 // 4th: create a renderer:
