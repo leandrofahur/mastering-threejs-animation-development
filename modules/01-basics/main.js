@@ -1,6 +1,18 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import DOOR from "./static/textures/door/color.jpg";
 import "./style.css";
+
+const textureLoader = new THREE.TextureLoader();
+const texture = textureLoader.load(DOOR);
+// const img = new Image();
+// img.src = DOOR;
+// const texture = new THREE.Texture(img);
+// texture.encoding = THREE.sRGBEncoding;
+
+// img.onload = () => {
+//   texture.needsUpdate = true;
+// };
 
 // 1st: create a scene (you can add the axes helper too):
 const scene = new THREE.Scene();
@@ -24,24 +36,27 @@ scene.add(camera);
 
 // 3rd: create a object = geometry + material and add it to the scene:
 const meshAxesHelper = new THREE.AxesHelper();
-// const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 // const boxGeometry = new THREE.BoxGeometry(1, 1, 1, 4, 4, 4);
 
-const boxGeometry = new THREE.BufferGeometry();
+// const boxGeometry = new THREE.BufferGeometry();
 
-// 50 triangles * 3 vertices * 3 coordinates
-const count = 50000;
-const positionsArray = new Float32Array(count * 3 * 3);
-const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
+// // 50 triangles * 3 vertices * 3 coordinates
+// const count = 50000;
+// const positionsArray = new Float32Array(count * 3 * 3);
+// const positionsAttribute = new THREE.BufferAttribute(positionsArray, 3);
 
-for (let i = 0; i < count * 3 * 3; i++) {
-  positionsArray[i] = (Math.random() - 0.5) * 4;
-}
+// for (let i = 0; i < count * 3 * 3; i++) {
+//   positionsArray[i] = (Math.random() - 0.5) * 4;
+// }
 
-boxGeometry.setAttribute("position", positionsAttribute);
+// boxGeometry.setAttribute("position", positionsAttribute);
+// const material = new THREE.MeshBasicMaterial({
+//   color: "#0000f0",
+//   wireframe: true,
+// });
 const material = new THREE.MeshBasicMaterial({
-  color: "#0000f0",
-  wireframe: true,
+  map: texture,
 });
 const mesh = new THREE.Mesh(boxGeometry, material);
 mesh.add(meshAxesHelper);
