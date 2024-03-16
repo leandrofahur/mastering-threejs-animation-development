@@ -1,13 +1,29 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import gsap from 'gsap'
 import GUI from 'lil-gui'
+
+/**
+ * Debug
+ */
+const gui = new GUI({
+    width: 300,
+    title: 'Nice debug UI',
+    closeFolders: false
+})
+// gui.close()
+// gui.hide()
+window.addEventListener('keydown', (event) =>
+{
+    if(event.key == 'h')
+        gui.show(gui._hidden)
+})
+
+const debugObject = {}
 
 /**
  * Base
  */
-// Debug
-const gui = new GUI()
-
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
 
@@ -15,50 +31,59 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
- * Lights
+ * Object
  */
-const ambientLight = new THREE.AmbientLight(0xffffff, 1.5)
-scene.add(ambientLight)
+debugObject.color = '#a778d8'
 
-const pointLight = new THREE.PointLight(0xffffff, 50)
-pointLight.position.x = 2
-pointLight.position.y = 3
-pointLight.position.z = 4
-scene.add(pointLight)
+const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2)
+const material = new THREE.MeshBasicMaterial({ color: '#a778d8', wireframe: true })
+const mesh = new THREE.Mesh(geometry, material)
+scene.add(mesh)
 
-/**
- * Objects
- */
-// Material
-const material = new THREE.MeshStandardMaterial()
-material.roughness = 0.4
+const cubeTweaks = gui.addFolder('Awesome cube')
+// cubeTweaks.close()
 
-// Objects
-const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5, 32, 32),
-    material
-)
-sphere.position.x = - 1.5
+cubeTweaks
+    .add(mesh.position, 'y')
+    .min(- 3)
+    .max(3)
+    .step(0.01)
+    .name('elevation')
 
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(0.75, 0.75, 0.75),
-    material
-)
+cubeTweaks
+    .add(mesh, 'visible')
 
-const torus = new THREE.Mesh(
-    new THREE.TorusGeometry(0.3, 0.2, 32, 64),
-    material
-)
-torus.position.x = 1.5
+cubeTweaks
+    .add(material, 'wireframe')
 
-const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(5, 5),
-    material
-)
-plane.rotation.x = - Math.PI * 0.5
-plane.position.y = - 0.65
+cubeTweaks
+    .addColor(debugObject, 'color')
+    .onChange(() =>
+    {
+        material.color.set(debugObject.color)
+    })
 
-scene.add(sphere, cube, torus, plane)
+debugObject.spin = () =>
+{
+    gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2 })
+}
+cubeTweaks
+    .add(debugObject, 'spin')
+
+debugObject.subdivision = 2
+cubeTweaks
+    .add(debugObject, 'subdivision')
+    .min(1)
+    .max(20)
+    .step(1)
+    .onFinishChange(() =>
+    {
+        mesh.geometry.dispose()
+        mesh.geometry = new THREE.BoxGeometry(
+            1, 1, 1,
+            debugObject.subdivision, debugObject.subdivision, debugObject.subdivision
+        )
+    })
 
 /**
  * Sizes
@@ -114,15 +139,6 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
-
-    // Update objects
-    sphere.rotation.y = 0.1 * elapsedTime
-    cube.rotation.y = 0.1 * elapsedTime
-    torus.rotation.y = 0.1 * elapsedTime
-
-    sphere.rotation.x = 0.15 * elapsedTime
-    cube.rotation.x = 0.15 * elapsedTime
-    torus.rotation.x = 0.15 * elapsedTime
 
     // Update controls
     controls.update()
